@@ -40,9 +40,11 @@ obj:
 	mkdir -p ${OBJ}
 
 include ${simavr}/Makefile.common
+LDFLAGS := $(filter-out -lsimavr, $(LDFLAGS))
 
-board = ${OBJ}/${target}.elf
+board = ${OBJ}/${target}
 
+${board} : ${LIBDIR}/libsimavr.a
 ${board} : ${OBJ}/${target}.o
 ${board} : ${OBJ}/ssd1306_virt.o
 ${board} : ${OBJ}/ssd1306_glut.o
