@@ -66,9 +66,9 @@ ifeq (${shell uname}, Darwin)
   # That's for Homebrew libelf and avr-gcc support
   HOMEBREW_PREFIX ?= /usr/local
   ifeq (${shell test -d $(HOMEBREW_PREFIX)/Cellar && echo Exists}, Exists)
-   ifneq (${shell test -d $(HOMEBREW_PREFIX)/Cellar/avr-gcc* && echo Exists}, Exists)
-    $(error Please install avr-gcc: brew tap osx-cross/homebrew-avr ; brew install avr-libc)
-   endif
+   #ifneq (${shell test -d $(HOMEBREW_PREFIX)/Cellar/avr-gcc* && echo Exists}, Exists)
+   # $(error Please install avr-gcc: brew tap osx-cross/homebrew-avr ; brew install avr-libc)
+   #endif
    ifneq (${shell test -d $(HOMEBREW_PREFIX)/Cellar/libelf/ && echo Exists}, Exists)
     $(error Please install libelf: brew install libelf)
    endif
@@ -76,8 +76,9 @@ ifeq (${shell uname}, Darwin)
    IPATH		+= $(HOMEBREW_PREFIX)/include
    LFLAGS		= -L$(HOMEBREW_PREFIX)/lib/
    CFLAGS		+= -I/$(HOMEBREW_PREFIX)/include/libelf
-   AVR_ROOT		:= $(firstword $(wildcard $(HOMEBREW_PREFIX)/Cellar/avr-libc/*/))
-   AVR			:= $(HOMEBREW_PREFIX)/bin/avr-
+   #AVR_ROOT		:= $(firstword $(wildcard $(HOMEBREW_PREFIX)/Cellar/avr-libc/*/))
+   PLATFORMIO_AVR_GCC = ${shell find ~/.platformio -name avr-gcc -print -quit}
+   AVR			:= ${shell dirname $(PLATFORMIO_AVR_GCC)}/avr-
   endif
  endif
 else
