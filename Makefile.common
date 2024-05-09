@@ -75,6 +75,7 @@ ifeq (${shell uname}, Darwin)
    CC			= clang
    IPATH		+= $(HOMEBREW_PREFIX)/include
    LFLAGS		= -L$(HOMEBREW_PREFIX)/lib/
+   LDFLAGS      += $(HOMEBREW_PREFIX)/lib/libelf.a
    CFLAGS		+= -I/$(HOMEBREW_PREFIX)/include/libelf
    #AVR_ROOT		:= $(firstword $(wildcard $(HOMEBREW_PREFIX)/Cellar/avr-libc/*/))
    PLATFORMIO_AVR_GCC = ${shell find ~/.platformio -name avr-gcc -print -quit}
@@ -116,6 +117,12 @@ LIBDIR		:= ${shell pwd}/${SIMAVR}/${OBJ}
 LDFLAGS 	+= -L${LIBDIR} -lsimavr -lm
 
 LDFLAGS 	+= -lelf
+ifeq (${shell uname}, Darwin)
+   ifeq (${shell test -d $(HOMEBREW_PREFIX)/Cellar && echo Exists}, Exists)
+     # Homebrew libelf is static
+     LDFLAGS     := $(filter-out -lelf, $(LDFLAGS)) 
+   endif
+endif
 
 ifeq (${WIN}, Msys)
 LDFLAGS      += -lws2_32
