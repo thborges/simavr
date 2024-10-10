@@ -44,12 +44,12 @@ LDFLAGS := $(filter-out -lsimavr, $(LDFLAGS))
 
 board = ${OBJ}/${target}
 
-${board} : ${LIBDIR}/libsimavr.a
 ${board} : ${OBJ}/${target}.o
 ${board} : ${OBJ}/ssd1306_virt.o
 ${board} : ${OBJ}/ssd1306_glut.o
 ${board} : ${OBJ}/hd44780.o
 ${board} : ${OBJ}/hd44780_glut.o
+	$(CC) $(CFLAGS) $^ ${LIBDIR}/libsimavr.a -o $@ $(LDFLAGS)
 
 ${target}: ${board}
 	@echo $@ done
