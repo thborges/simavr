@@ -6,7 +6,7 @@ LDFLAGS 	+= -framework GLUT -framework OpenGL
 else
 ifeq  (${UNAME}, Linux)
 CPPFLAGS	+= ${shell pkg-config --cflags glu}
-LDFLAGS 	+= ${shell pkg-config --libs glu} -lglut
+LDFLAGS 	+= ${shell pkg-config --libs glu} -lglut -lGL
 else
 ifeq (${shell uname -o}, Msys)
 LDFLAGS 	+= -mwindows -lopengl32 -lfreeglut
