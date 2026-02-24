@@ -18,6 +18,7 @@
 
 target = robcmp-simavr-debug
 firm_src = ${wildcard *.c} ${wildcard ../parts/ssd1306*.c} ${wildcard ../parts/hd44780*.c}
+firm_src += ../parts/uart_pty.c
 simavr = ../../
 
 IPATH = .
@@ -41,6 +42,7 @@ obj:
 
 include ${simavr}/Makefile.common
 LDFLAGS := $(filter-out -lsimavr, $(LDFLAGS))
+LDLIBS := -lGLU -lGL -lglut -lelf
 
 board = ${OBJ}/${target}
 
@@ -50,6 +52,7 @@ ${board} : ${OBJ}/ssd1306_virt.o
 ${board} : ${OBJ}/ssd1306_glut.o
 ${board} : ${OBJ}/hd44780.o
 ${board} : ${OBJ}/hd44780_glut.o
+${board} : ${OBJ}/uart_pty.o
 
 ${target}: ${board}
 	@echo $@ done
